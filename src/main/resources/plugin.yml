@@ -1,0 +1,4 @@
+name: Joingive
+version: ${project.version}
+main: ubiquitaku.joingive.Joingive
+api-version: 1.16
