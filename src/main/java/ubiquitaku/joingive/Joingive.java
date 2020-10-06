@@ -9,8 +9,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class Joingive extends JavaPlugin implements Listener {
     FileConfiguration config;
+    List list = new ArrayList();
 
 
     @Override
@@ -19,6 +23,7 @@ public final class Joingive extends JavaPlugin implements Listener {
         saveDefaultConfig();
         config = getConfig();
         getServer().getPluginManager().registerEvents(this,this);
+        list = config.getList("join");
     }
 
     @Override
@@ -28,7 +33,7 @@ public final class Joingive extends JavaPlugin implements Listener {
 
     @EventHandler
     public void join(PlayerJoinEvent e) {
-        if (config.contains(e.getPlayer().getName())) {
+        if (list.contains(e.getPlayer().getName())) {
             return;
         }
         ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
@@ -67,7 +72,8 @@ public final class Joingive extends JavaPlugin implements Listener {
         b.setAuthor(e.getPlayer().getName());
         book.setItemMeta(b);
         e.getPlayer().getInventory().addItem(book);
-        config.set(e.getPlayer().getName(),"にゃあ");
+        list.add(e.getPlayer().getName());
+        config.set("join",list);
         saveConfig();
         System.out.println("うんこ");
         e.getPlayer().sendMessage("うんこ");
